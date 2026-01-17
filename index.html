@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Verde NYC | Mediterranean Excellence</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1b4053;
+            --accent: #f4be64;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        .font-playfair {
+            font-family: "Playfair Display", serif;
+        }
+
+        /* Custom styles for smooth transitions */
+        .transition-smooth {
+            transition: all 0.3s ease;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Nav link underline animation */
+        .nav-link {
+            position: relative;
+            padding-bottom: 5px;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #1B4053;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Dropdown styles */
+        .dropdown-menu {
+            opacity: 0;
+            transform: translateY(-10px);
+            visibility: hidden;
+            transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+        }
+
+        .dropdown-menu:not(.hidden) {
+            opacity: 1;
+            transform: translateY(0);
+            visibility: visible;
+        }
+
+        /* Mobile dropdown arrow rotation */
+        .mobile-dropdown-toggle.active svg {
+            transform: rotate(180deg);
+        }
+
+        /* Mobile dropdown content */
+        .mobile-dropdown-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .mobile-dropdown-content:not(.hidden) {
+            max-height: 500px;
+        }
+
+        /* Hero Section Styles */
+        .hero-section {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            z-index: 1;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg,
+                    rgba(27, 64, 83, 0.85) 0%,
+                    rgba(27, 64, 83, 0.7) 100%);
+            z-index: 2;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            text-align: center;
+            max-width: 800px;
+            padding: 2rem;
+        }
+
+        /* Restaurant Name Styles */
+        .restaurant-name {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 2rem;
+        }
+
+        .restaurant-name::before,
+        .restaurant-name::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            width: 80px;
+            height: 1px;
+            background: #f4be64;
+        }
+
+        .restaurant-name::before {
+            left: -100px;
+        }
+
+        .restaurant-name::after {
+            right: -100px;
+        }
+
+        /* Button Styles */
+        .hero-btn-primary {
+            background: linear-gradient(135deg, #f4be64 0%, #e8aa4e 100%);
+            color: #1b4053;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            border: none;
+        }
+
+        .hero-btn-primary:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.3),
+                    transparent);
+            transition: left 0.7s;
+            z-index: -1;
+        }
+
+        .hero-btn-primary:hover:before {
+            left: 100%;
+        }
+
+        .hero-btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(244, 190, 100, 0.3);
+        }
+
+        .hero-btn-secondary {
+            background: transparent;
+            color: #f4be64;
+            border: 2px solid #f4be64;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .hero-btn-secondary:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg,
+                    transparent,
+                    rgba(244, 190, 100, 0.2),
+                    transparent);
+            transition: left 0.7s;
+            z-index: -1;
+        }
+
+        .hero-btn-secondary:hover:before {
+            left: 100%;
+        }
+
+        .hero-btn-secondary:hover {
+            background: rgba(244, 190, 100, 0.1);
+            transform: translateY(-3px);
+        }
+
+        /* Decorative Elements */
+        .hero-decoration {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .decorative-dot {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: #f4be64;
+            border-radius: 50%;
+            opacity: 0.5;
+        }
+
+        /* Counting Animation */
+        .count-up {
+            display: inline-block;
+            font-weight: bold;
+        }
+
+        .counting-number {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: countUp 1s ease-out forwards;
+        }
+
+        @keyframes countUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Counter animation */
+        @keyframes counter {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .counter-animated {
+            animation: counter 1s ease-out forwards;
+        }
+
+        /* Scroll Indicator */
+        @keyframes bounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0);
+            }
+
+            40% {
+                transform: translateY(-10px);
+            }
+
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .scroll-indicator {
+            animation: bounce 2s infinite;
+        }
+
+        /* Fade In Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        /* Carousel */
+        .carousel-container {
+            scroll-behavior: smooth;
+        }
+
+        /* Menu Card Hover */
+        .menu-card {
+            transition: all 0.3s ease;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Reservation Form */
+        .reservation-form input,
+        .reservation-form select,
+        .reservation-form textarea {
+            transition: all 0.3s ease;
+        }
+
+        .reservation-form input:focus,
+        .reservation-form select:focus,
+        .reservation-form textarea:focus {
+            border-color: #f4be64;
+            box-shadow: 0 0 0 3px rgba(244, 190, 100, 0.2);
+        }
+
+        /* Gallery Item */
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(27, 64, 83, 0.9), transparent);
+            color: white;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+
+        /* Testimonial Card */
+        .testimonial-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .testimonial-card::before {
+            content: "❝";
+            position: absolute;
+            top: -20px;
+            left: 20px;
+            font-size: 80px;
+            color: #f4be64;
+            opacity: 0.2;
+        }
+
+        /* Floating Animation */
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .float-animation {
+            animation: float 5s ease-in-out infinite;
+        }
+
+        /* Section Reveal */
+        .section-hidden {
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .section-visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.8s ease;
+        }
+
+        /* Loading Animation */
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #f4be64;
+            border-top: 3px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-[#FCFCFC] text-[#1B4053] overflow-x-hidden">
+
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="fixed inset-0 bg-white z-[200] flex items-center justify-center">
+        <div class="text-center">
+            <div class="loading-spinner mx-auto mb-4"></div>
+            <p class="text-[#1B4053] font-semibold">Loading Verde NYC...</p>
+        </div>
+    </div>
+
+    <!-- TOP NAVIGATION BAR -->
+    <div class="bg-[#1B4053] text-[#F4BE64] py-2 px-4 md:px-8 border-b border-[#F4BE64]/10 ">
+        <div
+            class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center text-[11px] md:text-[12px] font-medium tracking-widest uppercase">
+            <!-- Left Contact Info -->
+            <div class="flex items-center space-x-6 md:space-x-8">
+                <a href="tel:+16464068763" class="flex items-center hover:opacity-75 transition-smooth">
+                    <i class="fas fa-phone mr-2 text-xs"></i>
+                    +1 646 406 8763
+                </a>
+                <a href="mailto:contact@verde-nyc.com"
+                    class="flex items-center hover:opacity-75 transition-smooth hidden lg:flex">
+                    <i class="fas fa-envelope mr-2 text-xs"></i>
+                    contact@verde-nyc.com
+                </a>
+            </div>
+
+            <!-- Right Utilities -->
+            <div class="flex items-center space-x-6 mt-2 md:mt-0">
+                <div class="relative group">
+                    <button class="flex items-center hover:opacity-75 transition-smooth py-1">
+                        <i class="fas fa-globe mr-1.5 text-xs"></i>
+                        <span id="current-lang">English</span>
+                        <i class="fas fa-chevron-down ml-1 group-hover:rotate-180 transition-transform text-xs"></i>
+                    </button>
+                    <!-- Language Dropdown -->
+                    <div
+                        class="absolute right-0 mt-0 w-32 bg-[#1B4053] border border-[#F4BE64]/20 rounded shadow-2xl z-[110] hidden group-hover:block overflow-hidden transition-all">
+                        <button
+                            class="w-full text-left px-4 py-2 hover:bg-[#F4BE64] hover:text-[#1B4053] text-[10px] tracking-widest"
+                            onclick="changeLang('English')">English</button>
+                        <button
+                            class="w-full text-left px-4 py-2 hover:bg-[#F4BE64] hover:text-[#1B4053] text-[10px] tracking-widest"
+                            onclick="changeLang('Español')">Español</button>
+                        <button
+                            class="w-full text-left px-4 py-2 hover:bg-[#F4BE64] hover:text-[#1B4053] text-[10px] tracking-widest"
+                            onclick="changeLang('Français')">Français</button>
+                    </div>
+                </div>
+                <a href="#" class="flex items-center hover:opacity-75 transition-smooth">
+                    <i class="fas fa-shopping-cart mr-1.5 text-xs"></i>
+                    <span>Cart [0] item</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Navigation -->
+    <nav id="main-nav"
+        class="bg-white py-4 md:py-6 sticky top-0 z-[90] transition-all duration-300 border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 md:px-8 flex justify-between items-center">
+
+            <!-- Logo -->
+            <a href="#" class="flex-shrink-0 group">
+                <div class="flex items-center space-x-3">
+                    <div class="text-2xl font-playfair font-bold text-[#1B4053] group-hover:text-[#F4BE64] transition-smooth">
+                        VERDE<span class="text-[#F4BE64]">NYC</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Desktop Navigation Links -->
+            <ul class="hidden lg:flex items-center space-x-10 text-[13px] font-semibold uppercase tracking-[0.15em]">
+                <li><a href="#" class="nav-link text-[#1B4053] relative">Home</a></li>
+                <li><a href="#about" class="nav-link text-[#1B4053] transition-smooth relative">About</a></li>
+                <li><a href="#menu" class="nav-link text-[#1B4053] transition-smooth relative">Menu</a></li>
+                <li><a href="#gallery" class="nav-link text-[#1B4053] transition-smooth relative">Gallery</a></li>
+                <li><a href="#reservations" class="nav-link text-[#1B4053] transition-smooth relative">Reservations</a></li>
+                <li><a href="#contact" class="nav-link text-[#1B4053] transition-smooth relative">Contact</a></li>
+            </ul>
+
+            <!-- Search and Mobile Toggle -->
+            <div class="flex items-center space-x-4">
+                <button class="p-2 text-[#1B4053] hover:text-[#F4BE64] transition-smooth" aria-label="Search">
+                    <i class="fas fa-search"></i>
+                </button>
+                <button id="mobile-toggle" class="lg:hidden p-2 text-[#1B4053] transition-smooth">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Navigation -->
+    <div id="mobile-overlay"
+        class="fixed inset-0 bg-black/50 z-[150] opacity-0 pointer-events-none transition-opacity duration-300"></div>
+    <aside id="mobile-sidebar"
+        class="fixed top-0 right-0 h-full w-[80%] max-w-[320px] bg-white z-[160] translate-x-full transition-transform duration-300 shadow-2xl flex flex-col">
+        <div class="p-6 border-b border-gray-100 flex justify-between items-center">
+            <span class="text-xl font-playfair font-bold text-[#1B4053]">VERDE<span class="text-[#F4BE64]">NYC</span></span>
+            <button id="mobile-close" class="p-2 text-gray-400 hover:text-red-500">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <nav class="flex-1 overflow-y-auto px-8 py-10">
+            <ul class="space-y-6 text-lg font-playfair font-bold text-[#1B4053]">
+                <li><a href="#" class="block hover:text-[#F4BE64] transition-smooth py-2" onclick="closeMobileMenu()">Home</a></li>
+                <li><a href="#about" class="block hover:text-[#F4BE64] transition-smooth py-2" onclick="closeMobileMenu()">About</a></li>
+                <li><a href="#menu" class="block hover:text-[#F4BE64] transition-smooth py-2" onclick="closeMobileMenu()">Menu</a></li>
+                <li><a href="#gallery" class="block hover:text-[#F4BE64] transition-smooth py-2" onclick="closeMobileMenu()">Gallery</a></li>
+                <li><a href="#reservations" class="block hover:text-[#F4BE64] transition-smooth py-2" onclick="closeMobileMenu()">Reservations</a></li>
+                <li><a href="#contact" class="block hover:text-[#F4BE64] transition-smooth py-2" onclick="closeMobileMenu()">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="p-8 bg-gray-50 border-t border-gray-100">
+            <a href="tel:+16464068763" class="block text-sm font-semibold mb-2 hover:text-[#F4BE64] transition-smooth">
+                <i class="fas fa-phone mr-2"></i>+1 646 406 8763
+            </a>
+            <a href="mailto:contact@verde-nyc.com" class="block text-sm text-gray-500 hover:text-[#F4BE64] transition-smooth">
+                <i class="fas fa-envelope mr-2"></i>contact@verde-nyc.com
+            </a>
+        </div>
+    </aside>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-bg"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-decoration">
+            <div class="decorative-dot top-10 left-10"></div>
+            <div class="decorative-dot top-20 right-20"></div>
+            <div class="decorative-dot bottom-20 left-1/4"></div>
+            <div class="decorative-dot bottom-10 right-1/3"></div>
+        </div>
+        <div class="hero-content">
+            <div class="restaurant-name mb-12 fade-in-up">
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-playfair font-bold text-white leading-tight">
+                    <span class="block">Mediterranean</span>
+                    <span class="text-[#F4BE64] block mt-2">Excellence</span>
+                </h1>
+            </div>
+            <div class="mb-12 fade-in-up" style="animation-delay: 0.2s;">
+                <p class="text-xl md:text-2xl text-white/90 font-light max-w-2xl mx-auto leading-relaxed">
+                    Experience authentic Mediterranean flavors in the heart of NYC. Where tradition meets contemporary elegance.
+                </p>
+            </div>
+            <div class="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16 fade-in-up"
+                style="animation-delay: 0.4s;">
+                <button onclick="scrollToSection('reservations')"
+                    class="hero-btn-primary px-10 py-4 rounded-full font-bold text-lg uppercase tracking-wider transition-smooth shadow-xl w-full sm:w-auto">
+                    <i class="fas fa-calendar-alt mr-3"></i>Book a Table
+                </button>
+                <button onclick="scrollToSection('menu')"
+                    class="hero-btn-secondary px-10 py-4 rounded-full font-bold text-lg uppercase tracking-wider transition-smooth w-full sm:w-auto">
+                    <i class="fas fa-utensils mr-3"></i>View Menu
+                </button>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-white/80 fade-in-up" style="animation-delay: 0.6s;">
+                <div class="flex flex-col items-center">
+                    <div class="text-3xl font-bold text-[#F4BE64] mb-2">
+                        <span id="rating-count" class="counter-animated">4</span><span>.9</span>
+                    </div>
+                    <div class="text-sm uppercase tracking-wider">Google Reviews</div>
+                    <div class="flex mt-1">
+                        <i class="fas fa-star text-[#F4BE64]"></i>
+                        <i class="fas fa-star text-[#F4BE64]"></i>
+                        <i class="fas fa-star text-[#F4BE64]"></i>
+                        <i class="fas fa-star text-[#F4BE64]"></i>
+                        <i class="fas fa-star text-[#F4BE64]"></i>
+                    </div>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="text-3xl font-bold text-[#F4BE64] mb-2">
+                        <span id="years-count" class="counter-animated">12</span><span>+</span>
+                    </div>
+                    <div class="text-sm uppercase tracking-wider">Years Experience</div>
+                    <div class="text-xs mt-1">Since 2012</div>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="text-3xl font-bold text-[#F4BE64] mb-2">
+                        <span id="wines-count" class="counter-animated">100</span><span>+</span>
+                    </div>
+                    <div class="text-sm uppercase tracking-wider">Wine Selection</div>
+                    <div class="text-xs mt-1">From around the world</div>
+                </div>
+            </div>
+        </div>
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10">
+            <div onclick="scrollToSection('about')" class="text-white/60 text-sm scroll-indicator cursor-pointer">
+                <i class="fas fa-chevron-down text-2xl"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-white section-hidden">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="fade-in-up">
+                    <h2 class="text-4xl font-playfair font-bold text-[#1B4053] mb-6">Our Story</h2>
+                    <p class="text-gray-600 mb-6">
+                        Founded in 2012, Verde NYC brings the authentic flavors of the Mediterranean to the heart of New York City. 
+                        Our passion for traditional recipes, combined with contemporary culinary techniques, creates an unforgettable dining experience.
+                    </p>
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="text-center p-6 bg-[#FCFCFC] rounded-lg border border-gray-100">
+                            <i class="fas fa-leaf text-3xl text-[#F4BE64] mb-4"></i>
+                            <h4 class="font-bold text-[#1B4053] mb-2">Fresh Ingredients</h4>
+                            <p class="text-sm text-gray-500">Locally sourced & organic</p>
+                        </div>
+                        <div class="text-center p-6 bg-[#FCFCFC] rounded-lg border border-gray-100">
+                            <i class="fas fa-wine-glass-alt text-3xl text-[#F4BE64] mb-4"></i>
+                            <h4 class="font-bold text-[#1B4053] mb-2">Wine Selection</h4>
+                            <p class="text-sm text-gray-500">100+ curated wines</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative fade-in-up" style="animation-delay: 0.2s;">
+                    <div class="rounded-2xl overflow-hidden shadow-2xl">
+                        <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
+                            alt="Restaurant Interior" class="w-full h-[500px] object-cover">
+                    </div>
+                    <div class="absolute -bottom-6 -right-6 bg-[#F4BE64] text-white p-8 rounded-2xl shadow-xl">
+                        <div class="text-4xl font-bold">12+</div>
+                        <div class="text-sm uppercase">Years of Excellence</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Dishes Section -->
+    <section id="menu" class="py-20 bg-[#F8F9FA] section-hidden">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-playfair font-bold text-[#1B4053] mb-4">Signature Dishes</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Experience our chef's specialties, crafted with passion and the finest ingredients.</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Dish 1 -->
+                <div class="menu-card bg-white rounded-2xl overflow-hidden shadow-lg">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="images/project-3.jpg"
+                            alt="Mediterranean Platter" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                        <div class="absolute top-4 right-4 bg-[#F4BE64] text-white px-4 py-2 rounded-full font-bold">
+                            $32
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-xl font-bold text-[#1B4053] mb-2">Mediterranean Platter</h3>
+                        <p class="text-gray-600 mb-4">Grilled vegetables, hummus, falafel, and fresh pita bread.</p>
+                        <button class="text-[#F4BE64] font-semibold hover:text-[#1B4053] transition-smooth">
+                            View Details <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- Dish 2 -->
+                <div class="menu-card bg-white rounded-2xl overflow-hidden shadow-lg">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="images/project-4.jpg"
+                            alt="Seafood Paella" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                        <div class="absolute top-4 right-4 bg-[#F4BE64] text-white px-4 py-2 rounded-full font-bold">
+                            $48
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-xl font-bold text-[#1B4053] mb-2">Seafood Paella</h3>
+                        <p class="text-gray-600 mb-4">Traditional Spanish rice dish with fresh seafood and saffron.</p>
+                        <button class="text-[#F4BE64] font-semibold hover:text-[#1B4053] transition-smooth">
+                            View Details <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- Dish 3 -->
+                <div class="menu-card bg-white rounded-2xl overflow-hidden shadow-lg">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="images/project-5.jpg"
+                            alt="Lamb Shank" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                        <div class="absolute top-4 right-4 bg-[#F4BE64] text-white px-4 py-2 rounded-full font-bold">
+                            $42
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-xl font-bold text-[#1B4053] mb-2">Braised Lamb Shank</h3>
+                        <p class="text-gray-600 mb-4">Slow-cooked lamb with herbs and Mediterranean spices.</p>
+                        <button class="text-[#F4BE64] font-semibold hover:text-[#1B4053] transition-smooth">
+                            View Details <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8 mt-4">
+                <!-- Dish 1 -->
+                <div class="menu-card bg-white rounded-2xl overflow-hidden shadow-lg">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="images/project-7.jpg"
+                            alt="Mediterranean Platter" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                        <div class="absolute top-4 right-4 bg-[#F4BE64] text-white px-4 py-2 rounded-full font-bold">
+                            $32
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-xl font-bold text-[#1B4053] mb-2">Mediterranean Platter</h3>
+                        <p class="text-gray-600 mb-4">Grilled vegetables, hummus, falafel, and fresh pita bread.</p>
+                        <button class="text-[#F4BE64] font-semibold hover:text-[#1B4053] transition-smooth">
+                            View Details <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- Dish 2 -->
+                <div class="menu-card bg-white rounded-2xl overflow-hidden shadow-lg">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+                            alt="Seafood Paella" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                        <div class="absolute top-4 right-4 bg-[#F4BE64] text-white px-4 py-2 rounded-full font-bold">
+                            $48
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-xl font-bold text-[#1B4053] mb-2">Seafood Paella</h3>
+                        <p class="text-gray-600 mb-4">Traditional Spanish rice dish with fresh seafood and saffron.</p>
+                        <button class="text-[#F4BE64] font-semibold hover:text-[#1B4053] transition-smooth">
+                            View Details <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- Dish 3 -->
+                <div class="menu-card bg-white rounded-2xl overflow-hidden shadow-lg">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+                            alt="Lamb Shank" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                        <div class="absolute top-4 right-4 bg-[#F4BE64] text-white px-4 py-2 rounded-full font-bold">
+                            $42
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-xl font-bold text-[#1B4053] mb-2">Braised Lamb Shank</h3>
+                        <p class="text-gray-600 mb-4">Slow-cooked lamb with herbs and Mediterranean spices.</p>
+                        <button class="text-[#F4BE64] font-semibold hover:text-[#1B4053] transition-smooth">
+                            View Details <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="py-20 bg-white section-hidden">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-playfair font-bold text-[#1B4053] mb-4">Gallery</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Take a glimpse into our restaurant, dishes, and ambiance.</p>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="gallery-item rounded-2xl overflow-hidden h-64">
+                    <img src="images/drag-1.jpg"
+                        alt="Restaurant" class="w-full h-full object-cover">
+                    <div class="gallery-overlay p-6">
+                        <h4 class="font-bold">Main Dining Room</h4>
+                    </div>
+                </div>
+                <div class="gallery-item rounded-2xl overflow-hidden h-64">
+                    <img src="images/drag-2.jpg"
+                        alt="Food" class="w-full h-full object-cover">
+                    <div class="gallery-overlay p-6">
+                        <h4 class="font-bold">Chef's Special</h4>
+                    </div>
+                </div>
+                <div class="gallery-item rounded-2xl overflow-hidden h-64">
+                    <img src="images/drag-3.jpg"
+                        alt="Bar" class="w-full h-full object-cover">
+                    <div class="gallery-overlay p-6">
+                        <h4 class="font-bold">Wine Bar</h4>
+                    </div>
+                </div>
+                <div class="gallery-item rounded-2xl overflow-hidden h-64">
+                    <img src="images/drag-4.jpg"
+                        alt="Outdoor" class="w-full h-full object-cover">
+                    <div class="gallery-overlay p-6">
+                        <h4 class="font-bold">Terrace View</h4>
+                    </div>
+                </div>
+            </div>
+             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
+                <div class="gallery-item rounded-2xl overflow-hidden h-64">
+                    <img src="images/drag-5.jpg"
+                        alt="Restaurant" class="w-full h-full object-cover">
+                    <div class="gallery-overlay p-6">
+                        <h4 class="font-bold">Main Dining Room</h4>
+                    </div>
+                </div>
+                <div class="gallery-item rounded-2xl overflow-hidden h-64">
+                    <img src="images/drag-7.jpg"
+                        alt="Food" class="w-full h-full object-cover">
+                    <div class="gallery-overlay p-6">
+                        <h4 class="font-bold">Chef's Special</h4>
+                    </div>
+                </div>
+                <div class="gallery-item rounded-2xl overflow-hidden h-64">
+                    <img src="images/drag-8.jpg"
+                        alt="Bar" class="w-full h-full object-cover">
+                    <div class="gallery-overlay p-6">
+                        <h4 class="font-bold">Wine Bar</h4>
+                    </div>
+                </div>
+                <div class="gallery-item rounded-2xl overflow-hidden h-64">
+                    <img src="images/drag-9.jpg"
+                        alt="Outdoor" class="w-full h-full object-cover">
+                    <div class="gallery-overlay p-6">
+                        <h4 class="font-bold">Terrace View</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Carousel Section -->
+    <section class="py-20 bg-[#1B4053] text-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-playfair font-bold mb-4">Guest Reviews</h2>
+                <p class="text-gray-300 max-w-2xl mx-auto">What our guests say about their experience at Verde NYC</p>
+            </div>
+            <div class="relative">
+                <div id="carousel" class="flex overflow-x-auto snap-x snap-mandatory no-scrollbar gap-6 carousel-container">
+                    <!-- Testimonial Cards -->
+                    <div class="flex-none w-full md:w-1/3 snap-start">
+                        <div class="testimonial-card bg-white/10 backdrop-blur-sm rounded-2xl p-8 h-full">
+                            <div class="flex items-center mb-6">
+                                <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Sarah" class="w-12 h-12 rounded-full mr-4">
+                                <div>
+                                    <h4 class="font-bold">Sarah Johnson</h4>
+                                    <div class="flex text-[#F4BE64]">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-gray-200 italic">"The Mediterranean platter was absolutely divine! The flavors took me straight to the coast of Greece. Will definitely be back!"</p>
+                        </div>
+                    </div>
+                    <div class="flex-none w-full md:w-1/3 snap-start">
+                        <div class="testimonial-card bg-white/10 backdrop-blur-sm rounded-2xl p-8 h-full">
+                            <div class="flex items-center mb-6">
+                                <img src="https://randomuser.me/api/portraits/men/54.jpg" alt="Michael" class="w-12 h-12 rounded-full mr-4">
+                                <div>
+                                    <h4 class="font-bold">Michael Chen</h4>
+                                    <div class="flex text-[#F4BE64]">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-gray-200 italic">"Exceptional service and even better food. The wine pairing recommendation was spot on. Perfect for date night!"</p>
+                        </div>
+                    </div>
+                    <div class="flex-none w-full md:w-1/3 snap-start">
+                        <div class="testimonial-card bg-white/10 backdrop-blur-sm rounded-2xl p-8 h-full">
+                            <div class="flex items-center mb-6">
+                                <img src="https://randomuser.me/api/portraits/women/67.jpg" alt="Maria" class="w-12 h-12 rounded-full mr-4">
+                                <div>
+                                    <h4 class="font-bold">Maria Rodriguez</h4>
+                                    <div class="flex text-[#F4BE64]">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-gray-200 italic">"We celebrated our anniversary here and the staff made it so special. The ambiance, food, everything was perfect!"</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="carousel" class="flex overflow-x-auto snap-x snap-mandatory no-scrollbar gap-6 mt-4 carousel-container">
+                    <!-- Testimonial Cards -->
+                    <div class="flex-none w-full md:w-1/3 snap-start">
+                        <div class="testimonial-card bg-white/10 backdrop-blur-sm rounded-2xl p-8 h-full">
+                            <div class="flex items-center mb-6">
+                                <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Sarah" class="w-12 h-12 rounded-full mr-4">
+                                <div>
+                                    <h4 class="font-bold">Sarah Johnson</h4>
+                                    <div class="flex text-[#F4BE64]">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-gray-200 italic">"The Mediterranean platter was absolutely divine! The flavors took me straight to the coast of Greece. Will definitely be back!"</p>
+                        </div>
+                    </div>
+                    <div class="flex-none w-full md:w-1/3 snap-start">
+                        <div class="testimonial-card bg-white/10 backdrop-blur-sm rounded-2xl p-8 h-full">
+                            <div class="flex items-center mb-6">
+                                <img src="https://randomuser.me/api/portraits/men/54.jpg" alt="Michael" class="w-12 h-12 rounded-full mr-4">
+                                <div>
+                                    <h4 class="font-bold">Michael Chen</h4>
+                                    <div class="flex text-[#F4BE64]">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-gray-200 italic">"Exceptional service and even better food. The wine pairing recommendation was spot on. Perfect for date night!"</p>
+                        </div>
+                    </div>
+                    <div class="flex-none w-full md:w-1/3 snap-start">
+                        <div class="testimonial-card bg-white/10 backdrop-blur-sm rounded-2xl p-8 h-full">
+                            <div class="flex items-center mb-6">
+                                <img src="https://randomuser.me/api/portraits/women/67.jpg" alt="Maria" class="w-12 h-12 rounded-full mr-4">
+                                <div>
+                                    <h4 class="font-bold">Maria Rodriguez</h4>
+                                    <div class="flex text-[#F4BE64]">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-gray-200 italic">"We celebrated our anniversary here and the staff made it so special. The ambiance, food, everything was perfect!"</p>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- Reservations Section -->
+    <section id="reservations" class="py-20 bg-white section-hidden">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid md:grid-cols-2 gap-12">
+                <div class="fade-in-up">
+                    <h2 class="text-4xl font-playfair font-bold text-[#1B4053] mb-6">Make a Reservation</h2>
+                    <p class="text-gray-600 mb-8">Book your table online and enjoy an unforgettable dining experience at Verde NYC.</p>
+                    <div class="grid grid-cols-2 gap-6 mb-8">
+                        <div class="text-center p-6 bg-[#FCFCFC] rounded-xl border border-gray-100">
+                            <i class="fas fa-clock text-2xl text-[#F4BE64] mb-4"></i>
+                            <h4 class="font-bold text-[#1B4053] mb-2">Opening Hours</h4>
+                            <p class="text-sm text-gray-500">Mon-Sun: 5PM - 11PM</p>
+                        </div>
+                        <div class="text-center p-6 bg-[#FCFCFC] rounded-xl border border-gray-100">
+                            <i class="fas fa-phone text-2xl text-[#F4BE64] mb-4"></i>
+                            <h4 class="font-bold text-[#1B4053] mb-2">Call Us</h4>
+                            <p class="text-sm text-gray-500">+1 646 406 8763</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="reservation-form fade-in-up" style="animation-delay: 0.2s;">
+                    <form id="reservationForm" class="space-y-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                                <input type="text" required
+                                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-[#F4BE64]">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                                <input type="tel" required
+                                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-[#F4BE64]">
+                            </div>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Date</label>
+                                <input type="date" required
+                                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-[#F4BE64]">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Time</label>
+                                <select required
+                                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-[#F4BE64]">
+                                    <option value="">Select Time</option>
+                                    <option>5:00 PM</option>
+                                    <option>6:00 PM</option>
+                                    <option>7:00 PM</option>
+                                    <option>8:00 PM</option>
+                                    <option>9:00 PM</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Guests</label>
+                            <select required
+                                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-[#F4BE64]">
+                                <option value="">Number of Guests</option>
+                                <option>1 Person</option>
+                                <option>2 People</option>
+                                <option>3 People</option>
+                                <option>4 People</option>
+                                <option>5+ People</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Special Requests</label>
+                            <textarea rows="3"
+                                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-[#F4BE64]"></textarea>
+                        </div>
+                        <button type="submit"
+                            class="w-full bg-[#F4BE64] hover:bg-[#e8aa4e] text-[#1B4053] font-bold py-4 rounded-lg transition-colors">
+                            Book Table Now
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-[#1B4053] text-white section-hidden">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid md:grid-cols-3 gap-12">
+                <div class="fade-in-up">
+                    <h3 class="text-2xl font-playfair font-bold mb-6">Contact Info</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center">
+                            <i class="fas fa-map-marker-alt text-[#F4BE64] mr-4"></i>
+                            <div>
+                                <h4 class="font-bold">Address</h4>
+                                <p class="text-gray-300">123 Mediterranean Ave<br>New York, NY 10001</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-phone text-[#F4BE64] mr-4"></i>
+                            <div>
+                                <h4 class="font-bold">Phone</h4>
+                                <p class="text-gray-300">+1 646 406 8763</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-envelope text-[#F4BE64] mr-4"></i>
+                            <div>
+                                <h4 class="font-bold">Email</h4>
+                                <p class="text-gray-300">contact@verde-nyc.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="fade-in-up" style="animation-delay: 0.2s;">
+                    <h3 class="text-2xl font-playfair font-bold mb-6">Opening Hours</h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between py-2 border-b border-white/10">
+                            <span>Monday - Friday</span>
+                            <span>5PM - 11PM</span>
+                        </div>
+                        <div class="flex justify-between py-2 border-b border-white/10">
+                            <span>Saturday</span>
+                            <span>4PM - 12AM</span>
+                        </div>
+                        <div class="flex justify-between py-2 border-b border-white/10">
+                            <span>Sunday</span>
+                            <span>4PM - 10PM</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="fade-in-up" style="animation-delay: 0.4s;">
+                    <h3 class="text-2xl font-playfair font-bold mb-6">Subscribe</h3>
+                    <p class="text-gray-300 mb-4">Subscribe to our newsletter for updates and special offers.</p>
+                    <form class="space-y-4">
+                        <input type="email" placeholder="Your email address"
+                            class="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-[#F4BE64]">
+                        <button type="submit"
+                            class="w-full bg-[#F4BE64] hover:bg-[#e8aa4e] text-[#1B4053] font-bold py-3 rounded-lg transition-colors">
+                            Subscribe
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#0F2A3B] text-white py-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <div class="text-2xl font-playfair font-bold mb-2">VERDE<span class="text-[#F4BE64]">NYC</span></div>
+                    <p class="text-gray-400 text-sm">Mediterranean Excellence in the Heart of NYC</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-[#F4BE64] transition-smooth">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-[#F4BE64] transition-smooth">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-[#F4BE64] transition-smooth">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-[#F4BE64] transition-smooth">
+                        <i class="fab fa-tripadvisor"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="border-t border-white/10 mt-8 pt-8 text-center text-gray-400 text-sm">
+                <p>&copy; 2026 Verde NYC Restaurant. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" class="fixed bottom-8 right-8 bg-[#F4BE64] text-[#1B4053] p-3 rounded-full shadow-lg hover:scale-110 transition-transform hidden">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <script>
+        // Loading Screen
+        window.addEventListener('load', function () {
+            setTimeout(() => {
+                document.getElementById('loading-screen').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('loading-screen').style.display = 'none';
+                }, 300);
+            }, 1000);
+        });
+
+        // Mobile Menu Functions
+        const mobileToggle = document.getElementById('mobile-toggle');
+        const mobileClose = document.getElementById('mobile-close');
+        const mobileOverlay = document.getElementById('mobile-overlay');
+        const mobileSidebar = document.getElementById('mobile-sidebar');
+
+        function openMobileMenu() {
+            mobileOverlay.classList.remove('opacity-0', 'pointer-events-none');
+            mobileOverlay.classList.add('opacity-100', 'pointer-events-auto');
+            mobileSidebar.classList.remove('translate-x-full');
+            mobileSidebar.classList.add('translate-x-0');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileMenu() {
+            mobileOverlay.classList.remove('opacity-100', 'pointer-events-auto');
+            mobileOverlay.classList.add('opacity-0', 'pointer-events-none');
+            mobileSidebar.classList.remove('translate-x-0');
+            mobileSidebar.classList.add('translate-x-full');
+            document.body.style.overflow = '';
+        }
+
+        mobileToggle.addEventListener('click', openMobileMenu);
+        mobileClose.addEventListener('click', closeMobileMenu);
+        mobileOverlay.addEventListener('click', closeMobileMenu);
+
+        // Scroll to Section
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+                closeMobileMenu();
+            }
+        }
+
+        // Carousel Navigation
+        const carousel = document.getElementById('carousel');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        if (prevBtn && nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                const itemWidth = carousel.querySelector('div').offsetWidth;
+                carousel.scrollBy({ left: itemWidth + 24, behavior: 'smooth' });
+            });
+
+            prevBtn.addEventListener('click', () => {
+                const itemWidth = carousel.querySelector('div').offsetWidth;
+                carousel.scrollBy({ left: -(itemWidth + 24), behavior: 'smooth' });
+            });
+        }
+
+        // Counter Animation
+        function animateCounter(elementId, targetNumber, duration = 1500) {
+            const element = document.getElementById(elementId);
+            if (!element) return;
+            const increment = targetNumber / (duration / 16);
+            let currentNumber = 0;
+
+            const timer = setInterval(() => {
+                currentNumber += increment;
+                if (currentNumber >= targetNumber) {
+                    currentNumber = targetNumber;
+                    clearInterval(timer);
+                }
+                element.textContent = Math.floor(currentNumber);
+            }, 16);
+        }
+
+        // Initialize counters
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(() => {
+                animateCounter('rating-count', 4, 800);
+                animateCounter('years-count', 12, 1200);
+                animateCounter('wines-count', 100, 1400);
+            }, 500);
+        });
+
+        // Back to Top Button
+        const backToTop = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTop.classList.remove('hidden');
+            } else {
+                backToTop.classList.add('hidden');
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Scroll Reveal Animation
+        const sections = document.querySelectorAll('.section-hidden');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('section-visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        // Reservation Form Submission
+        const reservationForm = document.getElementById('reservationForm');
+        if (reservationForm) {
+            reservationForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+                alert('Thank you! Your reservation request has been submitted. We will contact you shortly to confirm.');
+                this.reset();
+            });
+        }
+
+        // Language Change Function
+        function changeLang(lang) {
+            document.getElementById('current-lang').textContent = lang;
+        }
+
+        // Sticky Navigation
+        window.addEventListener('scroll', function () {
+            const nav = document.getElementById('main-nav');
+            if (window.pageYOffset > 100) {
+                nav.classList.add('shadow-lg', 'py-3', 'md:py-4');
+                nav.classList.remove('py-4', 'md:py-6');
+            } else {
+                nav.classList.remove('shadow-lg', 'py-3', 'md:py-4');
+                nav.classList.add('py-4', 'md:py-6');
+            }
+        });
+
+        // Gallery Image Click (would open modal in full implementation)
+        document.querySelectorAll('.gallery-item').forEach(item => {
+            item.addEventListener('click', function () {
+                alert('In a full implementation, this would open a larger view of the image in a modal.');
+            });
+        });
+    </script>
+</body>
+</html>
